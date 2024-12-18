@@ -1,0 +1,59 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Student Advisors API",
+    "version": "v1",
+    "description": "Looks up student advisors and contact information"
+  },
+  "servers": [
+    {
+      "url": "https://nwhejbynqe.execute-api.us-west-2.amazonaws.com/Prod",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/student/{student_id}/advisors": {
+      "get": {
+        "operationId": "getAdvisors",
+        "summary": "Get advisor information for a student",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the student"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "office_phone": {
+                      "type": "string",
+                      "example": "5746315000"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
