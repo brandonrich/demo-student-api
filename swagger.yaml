@@ -1,6 +1,6 @@
-openapi: 3.1.0 # Updated to 3.1.0
+openapi: 3.1.0
 info:
-  title: Student Advisors API
+  title: Student API
   version: v1
 servers:
   - url: https://nwhejbynqe.execute-api.us-west-2.amazonaws.com/Prod 
@@ -9,7 +9,7 @@ servers:
 paths:
   /student/{student_id}/advisors:
     get:
-      operationId: getAdvisors  # Added operationId
+      operationId: getAdvisors
       summary: Get advisor information for a student
       parameters:
         - in: path
@@ -35,3 +35,118 @@ paths:
                   office_phone:
                     type: string
                     example: "5746315000"
+
+  /student/{student_id}/schedule:
+    get:
+      operationId: getSchedule
+      summary: Get the student's schedule
+      parameters:
+        - in: path
+          name: student_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the student
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    course_id:
+                      type: string
+                      example: CS101
+                    course_name:
+                      type: string
+                      example: Introduction to Computer Science
+                    time:
+                      type: string
+                      example: MWF 10:00 AM
+
+  /courses:
+    get:
+      operationId: getAllCourses
+      summary: Get all university courses
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  CS101:
+                    type: object
+                    properties:
+                      instructor_first_name:
+                        type: string
+                        example: Jane
+                      instructor_last_name:
+                        type: string
+                        example: Doe
+                      course_title:
+                        type: string
+                        example: Introduction to Computer Science
+                      course_description:
+                        type: string
+                        example: Fundamentals of programming and algorithms.
+                      credit_hours:
+                        type: integer
+                        example: 3
+                  MATH201:  # Include other courses like this
+                    type: object
+                    properties:
+                      instructor_first_name:
+                        type: string
+                        example: John
+                      instructor_last_name:
+                        type: string
+                        example: Smith
+                      course_title:
+                        type: string
+                        example: Calculus I
+                      course_description:
+                        type: string
+                        example: Limits, derivatives, and integrals.
+                      credit_hours:
+                        type: integer
+                        example: 4
+                        
+  /courses/{course_id}:
+    get:
+      operationId: getCourseById
+      summary: Get details about a specific course
+      parameters:
+        - in: path
+          name: course_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the course
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instructor_first_name:
+                    type: string
+                    example: Jane
+                  instructor_last_name:
+                    type: string
+                    example: Doe
+                  course_title:
+                    type: string
+                    example: Introduction to Computer Science
+                  course_description:
+                    type: string
+                    example: Fundamentals of programming and algorithms.
+                  credit_hours:
+                    type: integer
+                    example: 3

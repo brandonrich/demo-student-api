@@ -1,16 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Serverless API to retrieve advisors for a student
+Description: Serverless API for student information
 
 Resources:
-  StudentAdvisorsFunction:
+  GetAdvisorFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
       Runtime: nodejs16.x
-      CodeUri: src/  # Point to the src directory
+      CodeUri: src/get-advisor/
       Policies:
-        - AWSLambdaBasicExecutionRole 
+        - AWSLambdaBasicExecutionRole
       Events:
         GetAdvisors:
           Type: Api
@@ -18,7 +18,51 @@ Resources:
             Path: /student/{student_id}/advisors
             Method: GET
 
+  GetScheduleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs16.x
+      CodeUri: src/get-schedule/
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Events:
+        GetSchedule:
+          Type: Api
+          Properties:
+            Path: /student/{student_id}/schedule
+            Method: GET
+
+  GetCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs16.x
+      CodeUri: src/get-course/
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Events:
+        GetAllCourses:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: GET
+        GetCourseById:
+          Type: Api
+          Properties:
+            Path: /courses/{course_id}
+            Method: GET
+
 Outputs:
   EndpointURL:
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/student/{student_id}/advisors'
-    Description: URL for the API Gateway endpoint
+    Description: URL for the API Gateway endpoint for advisors
+  ScheduleEndpointURL:
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/student/{student_id}/schedule'
+    Description: URL for the API Gateway endpoint for schedule
+  CoursesEndpointURL:
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/courses'
+    Description: URL for the API Gateway endpoint for all courses
+  CourseByIdEndpointURL:
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/courses/{course_id}'
+    Description: URL for the API Gateway endpoint for a specific course
