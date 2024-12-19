@@ -47,25 +47,13 @@ To deploy this SAM template, follow these steps:
    sam deploy --guided
    ```
 
-   Follow the prompts to provide the necessary information, such as the stack name, AWS region, and other parameters. The 
-
-samconfig.toml
-
- file contains default deployment parameters that will be used.
+   Follow the prompts to provide the necessary information, such as the stack name, AWS region, and other parameters. The `samconfig.toml` file contains default deployment parameters that will be used.
 
 5. **Access the Endpoints**: Once the deployment is complete, you can access the API endpoints using the URLs provided in the output of the deployment process.
 
 ## Configuration
 
-The 
-
-template.yaml
-
- file defines the AWS resources and API endpoints. The 
-
-samconfig.toml
-
- file contains default deployment parameters.
+The `template.yaml` file defines the AWS resources and API endpoints. The `samconfig.toml` file contains default deployment parameters.
 
 ## Example Requests
 
