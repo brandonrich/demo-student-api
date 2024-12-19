@@ -1,21 +1,160 @@
 {
-  "openapi": "3.1.0",
   "info": {
-    "title": "Student Advisors API",
+    "title": "Student API",
     "version": "v1",
-    "description": "Looks up student advisors and contact information"
+    "description": "API for student and course info"
   },
-  "servers": [
-    {
-      "url": "https://nwhejbynqe.execute-api.us-west-2.amazonaws.com/Prod",
-      "description": "Production server"
-    }
-  ],
   "paths": {
+    "/courses": {
+      "get": {
+        "summary": "Get all university courses",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "CS101": {
+                      "type": "object",
+                      "properties": {
+                        "course_title": {
+                          "type": "string",
+                          "example": "Introduction to Computer Science"
+                        },
+                        "credit_hours": {
+                          "type": "integer",
+                          "example": 3
+                        },
+                        "course_description": {
+                          "type": "string",
+                          "example": "Fundamentals of programming and algorithms."
+                        },
+                        "instructor_last_name": {
+                          "type": "string",
+                          "example": "Doe"
+                        },
+                        "instructor_first_name": {
+                          "type": "string",
+                          "example": "Jane"
+                        }
+                      }
+                    },
+                    "MATH201": {
+                      "type": "object",
+                      "properties": {
+                        "course_title": {
+                          "type": "string",
+                          "example": "Calculus I"
+                        },
+                        "credit_hours": {
+                          "type": "integer",
+                          "example": 4
+                        },
+                        "course_description": {
+                          "type": "string",
+                          "example": "Limits, derivatives, and integrals."
+                        },
+                        "instructor_last_name": {
+                          "type": "string",
+                          "example": "Smith"
+                        },
+                        "instructor_first_name": {
+                          "type": "string",
+                          "example": "John"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "operationId": "getAllCourses"
+      }
+    },
+    "/courses/{course_id}": {
+      "get": {
+        "summary": "Get details about a specific course",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "course_title": {
+                      "type": "string",
+                      "example": "Introduction to Computer Science"
+                    },
+                    "credit_hours": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "course_description": {
+                      "type": "string",
+                      "example": "Fundamentals of programming and algorithms."
+                    },
+                    "instructor_last_name": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "instructor_first_name": {
+                      "type": "string",
+                      "example": "Jane"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "course_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the course"
+          }
+        ],
+        "operationId": "getCourseById"
+      }
+    },
     "/student/{student_id}/advisors": {
       "get": {
-        "operationId": "getAdvisors",
         "summary": "Get advisor information for a student",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "last_name": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "office_phone": {
+                      "type": "string",
+                      "example": "5746315000"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
         "parameters": [
           {
             "in": "path",
@@ -27,33 +166,61 @@
             "description": "The ID of the student"
           }
         ],
+        "operationId": "getAdvisors"
+      }
+    },
+    "/student/{student_id}/schedule": {
+      "get": {
+        "summary": "Get the student's schedule",
         "responses": {
           "200": {
-            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "first_name": {
-                      "type": "string",
-                      "example": "John"
-                    },
-                    "last_name": {
-                      "type": "string",
-                      "example": "Doe"
-                    },
-                    "office_phone": {
-                      "type": "string",
-                      "example": "5746315000"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "time": {
+                        "type": "string",
+                        "example": "MWF 10:00 AM"
+                      },
+                      "course_id": {
+                        "type": "string",
+                        "example": "CS101"
+                      },
+                      "course_name": {
+                        "type": "string",
+                        "example": "Introduction to Computer Science"
+                      }
                     }
                   }
                 }
               }
-            }
+            },
+            "description": "Successful response"
           }
-        }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the student"
+          }
+        ],
+        "operationId": "getSchedule"
       }
     }
-  }
+  },
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "https://nwhejbynqe.execute-api.us-west-2.amazonaws.com/Prod",
+      "description": "Production server"
+    }
+  ]
 }
